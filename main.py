@@ -1,5 +1,7 @@
 ﻿from fastapi import FastAPI
 from pydantic import BaseModel
+from retrieve import retrieve
+from generate import generate_answer
 
 app = FastAPI()
 
@@ -17,8 +19,15 @@ def health_check():
 
 @app.post("/ask")
 def ask_question(payload: Question):
+    results = retrieve(payload.question, top_k=payload.top_k)
+    matched_docs = results["documents"][0]
+    distances = results["distances"][0]
+
+    answer = generate_answer(payload.question, matched_docs)
+
     return {
         "you_asked": payload.question,
-        "top_k": payload.top_k,
-        "answer": f"You asked: '{payload.question}' — real answering logic comes in Phase 2"
+        "retrieved_documents": matched_docs,
+        "distances": distances,
+        "answer": answer
     }
