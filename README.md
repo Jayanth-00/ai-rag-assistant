@@ -9,7 +9,7 @@ vector databases, Python backend APIs, CI/CD, and observability for AI systems.
 - [x] Phase 1: Python fundamentals -- FastAPI app with GET/POST endpoints, Pydantic models
 - [x] Phase 2: Full RAG pipeline -- document ingestion, embedding, vector search (Chroma),
       and LLM generation (Claude API), wired into a working /ask endpoint
-- [ ] Phase 3: Add agentic layer (tool-calling)
+- [x] Phase 3: Add agentic layer (tool-calling)
 - [ ] Phase 4: CI/CD + Azure deployment
 - [ ] Phase 5: Observability & evaluation
 
@@ -27,7 +27,8 @@ vector databases, Python backend APIs, CI/CD, and observability for AI systems.
 
 1. Documents are embedded and stored in a local Chroma vector database (\ingest.py\)
 2. A user question is embedded and matched against stored documents using semantic
-   search (\etrieve.py\)
+   search (\
+etrieve.py\)
 3. The matched documents are passed to Claude as grounding context, and a real answer
    is generated (\generate.py\)
 4. All of this is exposed through a FastAPI endpoint (\main.py\)
