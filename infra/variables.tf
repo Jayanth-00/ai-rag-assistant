@@ -15,3 +15,9 @@ variable "acr_name" {
   type        = string
   default     = "jayanthragacr1"
 }
+
+variable "anthropic_api_key" {
+  description = "Anthropic API key for the RAG assistant"
+  type        = string
+  sensitive   = true
+}
