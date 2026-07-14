@@ -1,4 +1,4 @@
-﻿resource "azurerm_resource_group" "rag_rg" {
+resource "azurerm_resource_group" "rag_rg" {
   name     = var.resource_group_name
   location = var.location
 }
@@ -60,7 +60,7 @@ resource "azurerm_container_app" "rag_app" {
         secret_name = "anthropic-api-key"
       }
     }
-    min_replicas = 1
+    min_replicas = 0
     max_replicas = 2
   }
 
