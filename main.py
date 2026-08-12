@@ -1,9 +1,26 @@
-﻿from fastapi import FastAPI
+﻿import logging
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
 from pydantic import BaseModel
-from retrieve import retrieve
+from retrieve import init_retrieval, retrieve
 from generate import generate_answer
 
-app = FastAPI()
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("main")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Build the BM25 index and load the cross-encoder once, then reuse across requests.
+    state = init_retrieval()
+    app.state.bm25_index = state.bm25_index
+    app.state.cross_encoder = state.cross_encoder
+    logger.info("Retrieval pipeline ready: %d chunks indexed", len(state.chunk_ids))
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 
 class Question(BaseModel):
     question: str
